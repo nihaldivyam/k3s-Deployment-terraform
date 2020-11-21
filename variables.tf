@@ -4,11 +4,11 @@ variable "deployer-public-key" {
 
 variable "ami_id" {
   type    = string
-  default = "ami-026669ec456129a70"
+  default = "ami-06a2b4acacc88730a"
 }
 variable "worker_instance_type" {
   type    = string
-  default = "t2.micro"
+  default = "t4g.nano"
 }
 # copy token from master node and paste here.
 variable "k3s_token" {
