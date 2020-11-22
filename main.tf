@@ -8,7 +8,7 @@ resource "aws_key_pair" "deployer" {
 resource "aws_instance" "master" {
   ami           = var.ami_id
   instance_type = var.worker_instance_type
-  key_name = aws_key_pair.deployer.key_name
+  key_name      = aws_key_pair.deployer.key_name
   user_data = templatefile("data/main-server.tmpl", {
 
 
@@ -38,9 +38,9 @@ resource "null_resource" "copy-nodetoken" {
 ### Install worker node
 
 resource "aws_instance" "worker-node" {
-  ami                  = var.ami_id
-  instance_type        = var.worker_instance_type
-  key_name             = aws_key_pair.deployer.key_name
+  ami           = var.ami_id
+  instance_type = var.worker_instance_type
+  key_name      = aws_key_pair.deployer.key_name
 
 
   user_data = templatefile("data/agent-server.tmpl", {
@@ -48,7 +48,7 @@ resource "aws_instance" "worker-node" {
     master_local_ip = aws_instance.master.private_ip,
     node_token      = var.k3s_token,
     cluster_name    = var.cluster_name,
-    
+
   })
 
 }

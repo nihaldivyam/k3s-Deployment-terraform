@@ -1,5 +1,5 @@
 variable "deployer-public-key" {
-  type    = string
+  type = string
 }
 
 variable "ami_id" {
