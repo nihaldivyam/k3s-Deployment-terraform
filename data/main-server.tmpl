@@ -27,16 +27,18 @@ mirrors:
       - "http://$INSTANCE_IP:5000"
 EOF
 
-export INSTALL_K3S_VERSION=v1.18.4+k3s1
+
 export K3S_NODE_NAME=$(curl http://169.254.169.254/latest/meta-data/local-hostname)
 export PROVIDER_ID=aws:///$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)/$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 
 export INSTALL_K3S_EXEC=" \
     --cluster-init \
     --kubelet-arg provider-id=$PROVIDER_ID \
-    --kubelet-arg allowed-unsafe-sysctls=kernel.msg*,net.core.somaxconn "
+    --kubelet-arg allowed-unsafe-sysctls=kernel.msg*,net.core.somaxconn \
+    --private-registry \"/home/ec2-user/registries.yaml\" \
+    --write-kubeconfig-mode 644 "
 
-curl -sfL https://get.k3s.io | sh -
+curl -sfL https://get.k3s.io | sh - 
 
 
 echo -n $(sudo cat /etc/rancher/k3s/k3s.yaml) > /home/ec2-user/k3s.yaml
